@@ -1,0 +1,1 @@
+<?php define( "SITE_LASTUPDATE", strtotime( "2013-08-09 13:43:35" ) ); ?>
