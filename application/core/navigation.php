@@ -53,7 +53,6 @@
                 $ni = new NavigationItem( "System" );
                 $ni->addChild( new NavigationItem( "List site features", "report/features" ) );
                 $ni->addChild( new NavigationItem( "List schema", "report/schema" ) );
-                $ni->addChild( new NavigationItem( "List field types", "report/fields" ) );
                 $rpt->addChild( $ni );
               }
 

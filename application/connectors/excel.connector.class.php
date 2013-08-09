@@ -9,7 +9,8 @@
       return "Provides and interface for reading from Excel files";
     }
     
-    function __construct( $file ){
+    function __construct( $file="" ){
+      if( !file_exists( $file ) ) return false;
       $this->open( $file );
     }
     function init(){

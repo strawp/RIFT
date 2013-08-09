@@ -120,7 +120,7 @@ Fields are specified in the manner we would want them to appear on the web form 
 of their name. For example, `strName` and `strIcing` are string fields, rendered as text boxes on the web and stored as varchars in the database. 
 `cnfVegan` is a "Confirm" box, rendered as a single checkbox on the web and stored as a 0/1 in a tinyint in the database.
 
-The full list of available field types can be found in the application under `Reports -> System -> List field types` when you are logged in
+The full list of available field types can be found in the application under `Reports -> System -> List site features` when you are logged in
 as an admin user. A demonstration of how these fields are rendered is also available in the `test` class.
 
 If you log into your instance of RIFT you will see how this class is rendered by going to `http://your.site/cake/`.

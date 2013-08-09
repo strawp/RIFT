@@ -21,6 +21,7 @@
       return "Members list";
     }
 
+
     /**
     * Get SQL for a search query that is representative of what is in ->value
     * @return string

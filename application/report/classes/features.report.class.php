@@ -72,12 +72,26 @@
         $aConnectors[] = array( "name" => ucwords( str_replace( "_", " ", $m[1] ) ), "description" => $w->getFeatureDescription() );
       }
       closedir( $dir );
+
+      // Get list of all fields
+      $fielddir = opendir( SITE_WEBROOT."/core/fields" );
+      $aFields = array();
+      while( $file = readdir( $fielddir ) ){
+        if( !preg_match( "/^(.*)\.field\.class\.php$/", $file, $m ) ) continue;
+        $name = $m[1]."Field";
+        $f = Field::create( $name );
+        if( !$f ) continue;
+        if( !( $f instanceof Field ) ) continue;
+        $aFields[] = array( "name" => $f->type, "description" => $f->getTypeName() );
+      }
+      closedir( $fielddir );
       
       $aFeatureLists = array(
         "Workflow",
         "Reports",
         "StoredData",
-        "Connectors"
+        "Connectors",
+        "Fields"
       );
       
       $tbl = new Table("Features");
@@ -137,6 +151,9 @@
           background-color: #B2C2F0;
         }
         #tblFeatures tr.Connectors td {
+          background-color: #FFCCFF;
+        }
+        #tblFeatures tr.Fields td {
           background-color: #F3D6D6;
         }
         
@@ -145,7 +162,7 @@
     
     function userHasReadAccess($user=null){
       if( !$user || $user->id == 0 ) return false;
-      return $user->isInGroup("EDIT") || $user->isAdmin();
+      return $user->isAdmin();
     }
   }
 ?>
