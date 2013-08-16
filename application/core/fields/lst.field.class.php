@@ -15,6 +15,7 @@
       $this->checklist = false;     // Display multiselect items as a checklist/radio instead of select
       $this->showviewlink = true;   // Show the "View" link next to a field
       $this->textfield  = "";       // Field which shows the text version of this foreign key, to avoid having to join just to show that information in search results
+      $this->allowcreatefk = false;
       if( $this->type == "lst" ) $this->init();
     }
         
@@ -73,8 +74,14 @@
             break;
           }
           if( $this->belongsto != "" && $value != "" ){
-            $o = new Model( $this->belongsto );
-            $this->value = $o->getIdByName( trim( $value ) );
+            $o = $this->getBelongstoModel();
+            $id = $o->getIdByName( trim( $value ) );
+            if( !$id && $this->allowcreatefk && !empty( $o->aFields["name"] ) ){
+              $o->Fields->Name->value = trim( $value );
+              $o->save();
+              $id = $o->id;
+            }
+            $this->value = $id;
             unset( $o );
             break;
           }
