@@ -1302,6 +1302,7 @@
         $sql .= " LIMIT ".intval( $limit );
       }
       $db->query( $sql );
+      // pre_r( $db->getSummary() );
       SessionDb::setLastSearchSql($sql);
       addLogMessage( "End", $this->name."->getWithJoins()" );
       return $db;
@@ -2227,10 +2228,13 @@
         foreach( $this->aFields as $key => $field ){
           if( !empty( $field->textfield ) ){
             if( !array_key_exists( $field->textfield, $row ) ) continue;
+            if( !array_key_exists( $field->textfield, $this->aFields ) ) continue;
+            $this->aFields[$field->textfield]->value = $row[$field->textfield];
           }elseif( !array_key_exists( $key, $row ) ){ 
             continue;
+          }else{
+            $this->aFields[$key]->value = $row[$key];
           }
-          $this->aFields[$key]->value = $row[$key];
           if( $this->aFields[$key]->type == "mem" ) $this->aFields[$key]->pretendtype = "";
         }
         $this->id = intval( $row["id"] );
@@ -2284,7 +2288,11 @@
             $str .= $row[$key];
           */
           }else{
-            $tmp = trim( $field->toString( $aData ) );
+            if( !empty( $field->textfield ) && !empty( $this->aFields[$field->textfield] ) ){
+              $tmp = $this->aFields[$field->textfield]->toString();
+            }else{
+              $tmp = trim( $field->toString( $aData ) );
+            }
             $tmp = preg_replace( "/[\n\r\t]/", "", $tmp );
             $tmp = eregi_replace( '"', "'", $tmp );
             $tr->addCell( new TableCell( $tmp, $key ) );
