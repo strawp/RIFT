@@ -120,6 +120,12 @@
     }
     
     function dropTable( $table ){
+      // Determine if view
+      $this->query( "SELECT TABLE_TYPE FROM information_schema.TABLES WHERE TABLE_SCHEMA = '".$this->escape( DB_NAME )."' AND TABLE_NAME = '".$this->escape($table)."'" );
+      $row = $this->fetchRow();
+      if( $row["TABLE_TYPE"] == "VIEW" ){
+        return $this->query( "DROP VIEW IF EXISTS ".$this->escape( $table ) );
+      }
       return $this->query( "DROP TABLE IF EXISTS ".$this->escape( $table ) );
     }
     
