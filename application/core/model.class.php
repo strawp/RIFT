@@ -8,7 +8,7 @@
   require_once( "core/flash.class.php" );
   require_once( "core/reportable.interface.php" );
   class Model implements iReportable{
-    function Model( $name, $id=0 ){
+    function Model( $name="", $id=0 ){
       
       addLogMessage( "Constructing new ".$name, $name."->".$name."()" );
       $this->id = $id;
